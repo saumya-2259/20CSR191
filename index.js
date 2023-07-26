@@ -1,30 +1,17 @@
-const express = require('express');
-const axios = require('axios');
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import './index.css';
+import App from './App';
+import reportWebVitals from './reportWebVitals';
 
-const app = express();
-const PORT = process.env.PORT || 3000;
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>
+);
 
-// GET /numbers endpoint
-app.get('/numbers', async (req, res) => {
-  const urls = req.query.url;
-
-  if (!urls) {
-    return res.status(400).json({ error: 'URLs not provided in query parameters.' });
-  }
-
-  try {
-    const numberPromises = urls.map(url => axios.get(url));
-    const responses = await Promise.all(numberPromises);
-
-    const numbers = responses.map(response => response.data);
-    res.json(numbers);
-  } catch (error) {
-    console.error('Error fetching numbers:', error.message);
-    res.status(500).json({ error: 'Error fetching numbers. Please check the provided URLs.' });
-  }
-});
-
-// Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on ${PORT}`);
-});
+// If you want to start measuring performance in your app, pass a function
+// to log results (for example: reportWebVitals(console.log))
+// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+reportWebVitals();
